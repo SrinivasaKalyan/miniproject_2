@@ -116,7 +116,7 @@ def display_presentation():
     """, unsafe_allow_html=True)
 
 button_clicked = False
-button_clicked = st.button("View Presentation")
+button_clicked = st.button("ABOUT")
 chart_type = st.radio("", ('Comment-Analysis', 'Employee-Positive-Sentiment'),index=None)
 
     
