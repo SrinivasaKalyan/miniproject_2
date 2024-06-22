@@ -7,6 +7,9 @@ import plotly.express as px
 global df
 df = pd.read_csv("sentiment_analysis.csv")
 
+# Print column names to debug
+st.write("DataFrame Columns:", df.columns.tolist())
+
 # Title
 st.title('LECTURER SENTIMENT ANALYSIS')
 
@@ -63,10 +66,20 @@ else:
     if chart_type == 'Comment-Analysis':
         st.sidebar.title('Filters')
         selected_empname = st.sidebar.selectbox('Select Employee Name:', df['empname'].unique())
-        dept_code_options = df[df['empname'] == selected_empname]['department_code'].unique()
-        selected_dept_code = st.sidebar.selectbox('Select Department Code:', dept_code_options)
-        course_options = df[(df['empname'] == selected_empname) & (df['department_code'] == selected_dept_code)]['course_name'].unique()
-        selected_course = st.sidebar.selectbox('Select Course:', course_options)
+        
+        # Debugging: Check if 'department_code' column exists
+        if 'department_code' in df.columns:
+            dept_code_options = df[df['empname'] == selected_empname]['department_code'].unique()
+            selected_dept_code = st.sidebar.selectbox('Select Department Code:', dept_code_options)
+        else:
+            st.error("'department_code' column not found in the data.")
+        
+        # Debugging: Check if 'course_name' column exists
+        if 'course_name' in df.columns:
+            course_options = df[(df['empname'] == selected_empname) & (df['department_code'] == selected_dept_code)]['course_name'].unique()
+            selected_course = st.sidebar.selectbox('Select Course:', course_options)
+        else:
+            st.error("'course_name' column not found in the data.")
 
         filtered_df = df[(df['empname'] == selected_empname) & 
                          (df['department_code'] == selected_dept_code) & 
