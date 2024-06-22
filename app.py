@@ -43,7 +43,8 @@ def display_presentation():
         width="1000" height="450"></iframe>
     </div>
     """, unsafe_allow_html=True)
-
+    
+show_presentation = False
 if st.sidebar.button("ABOUT❓"):
     show_presentation = not show_presentation
 if show_presentation:
