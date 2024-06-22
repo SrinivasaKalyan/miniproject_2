@@ -69,21 +69,21 @@ else:
         display_sample_data(filtered_df)
         st.subheader("About Creator")
         with st.expander("Kalyan Kanchumarthi"):
-                col1, col2 = st.columns([1, 3])  # Adjust the ratio as needed
-                with col1:
-                    st.image("mypic.jpg", use_column_width=True)
-                with col2:
-                    st.write("""
-                    Hello! I'm Kalyan Kanchumarthi, \n
-                    a passionate developer exploring the world of AI and programming.
+        col1, col2 = st.columns([1, 3])  # Adjust the ratio as needed
+        with col1:
+            st.image("mypic.jpg", use_column_width=True)
+        with col2:
+            st.write("""
+            Hello! I'm Kalyan Kanchumarthi, \n
+            a passionate developer exploring the world of AI and programming.
 
-                    - I love building applications that make life easier.
-                    - I'm good at Python and data analysis.
-                    - Don't misunderstand me as a nerd; I'm socially adept too! 😄
-                    - Thank you for checking out my app!
+            - I love building applications that make life easier.
+            - I'm good at Python and data analysis.
+            - Don't misunderstand me as a nerd; I'm socially adept too! 😄
+            - Thank you for checking out my app!
 
-                    Do check out my [LinkedIn](https://www.linkedin.com/in/kalyan-kanchumarthi-a6320a235/) and [GitHub](https://github.com/SrinivasaKalyan).
-                    """)
+            Do check out my [LinkedIn](https://www.linkedin.com/in/kalyan-kanchumarthi-a6320a235/) and [GitHub](https://github.com/SrinivasaKalyan).
+            """)
 
     elif chart_type == 'Employee-Positive-Sentiment':
         display_bar_chart(df)
