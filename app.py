@@ -44,8 +44,6 @@ def display_presentation():
     </div>
     """, unsafe_allow_html=True)
 
-st.sidebar.title('ABOUT❓')
-show_presentation = False
 if st.sidebar.button("ABOUT❓"):
     show_presentation = not show_presentation
 if show_presentation:
