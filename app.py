@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 
 global df
-df = pd.read_csv("feedbackData.csv")
+df = pd.read_csv("sentiment_analysis.csv")
 st.title('LECTURER SENTIMENT ANALYSIS')
 
 def display_pie_chart(data):
