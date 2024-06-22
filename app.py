@@ -3,24 +3,16 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 
-# Load data
 global df
-df = pd.read_csv("sentiment_analysis.csv")
-
-# Print column names to debug
-st.write("DataFrame Columns:", df.columns.tolist())
-
-# Title
+df = pd.read_csv("feedbackData.csv")
 st.title('LECTURER SENTIMENT ANALYSIS')
 
-# Function to display pie chart
-def display_pie_chart(data, empname):
+def display_pie_chart(data):
     sentiment_counts = data['sentiment'].value_counts()
     fig = go.Figure(data=[go.Pie(labels=sentiment_counts.index, values=sentiment_counts.values, hole=0.3)])
-    fig.update_layout(title=f'Sentiment Analysis for {empname}', height=550, width=700)
+    fig.update_layout(title=f'Sentiment Analysis for {selected_empname}', height=550, width=700)
     st.plotly_chart(fig, use_container_width=True)
 
-# Function to display bar chart
 def display_bar_chart(data):
     emp_sentiment_counts = data[data['sentiment'] == 'positive']['empname'].value_counts(normalize=True).mul(100)
     colors = px.colors.qualitative.Set1  
@@ -31,9 +23,8 @@ def display_bar_chart(data):
     fig.update_layout(title='Positive Sentiment Percentage for All Employees', xaxis_title='Employee Name', yaxis_title='Positive Sentiment Percentage')
     st.plotly_chart(fig, use_container_width=True)
 
-# Function to display sample data
 def display_sample_data(data):
-    data = data.drop(columns=["question", "student_name", "campus_name", "course_name", "section_name"])
+    data = data.drop(columns=[ "question", "student_name", "campus_name", "course_name", "section_name"])
     with st.expander("Unique Comments by Sentiment", expanded=False):
         st.markdown("""
             <style>
@@ -45,7 +36,6 @@ def display_sample_data(data):
         """, unsafe_allow_html=True)
         st.write(data.sample(5).to_html(classes=['scroll-table'], escape=False), unsafe_allow_html=True)
 
-# Function to display presentation
 def display_presentation():
     st.markdown("""
     <div style="display:flex; justify-content:center; align-items:center; height:800px;">
@@ -54,57 +44,46 @@ def display_presentation():
     </div>
     """, unsafe_allow_html=True)
 
-# Sidebar for About section
 st.sidebar.title('ABOUT❓')
-show_presentation = st.sidebar.button("ABOUT❓")
+show_presentation = False
+if st.sidebar.button("ABOUT❓"):
+    show_presentation = not show_presentation
 if show_presentation:
     display_presentation()
 else:
-    # Main chart type selection
     chart_type = st.radio("Select Chart Type:", ('Comment-Analysis', 'Employee-Positive-Sentiment'))
 
     if chart_type == 'Comment-Analysis':
         st.sidebar.title('Filters')
         selected_empname = st.sidebar.selectbox('Select Employee Name:', df['empname'].unique())
-        
-        # Debugging: Check if 'department_code' column exists
-        if 'department_code' in df.columns:
-            dept_code_options = df[df['empname'] == selected_empname]['department_code'].unique()
-            selected_dept_code = st.sidebar.selectbox('Select Department Code:', dept_code_options)
-        else:
-            st.error("'department_code' column not found in the data.")
-        
-        # Debugging: Check if 'course_name' column exists
-        if 'course_name' in df.columns:
-            course_options = df[(df['empname'] == selected_empname) & (df['department_code'] == selected_dept_code)]['course_name'].unique()
-            selected_course = st.sidebar.selectbox('Select Course:', course_options)
-        else:
-            st.error("'course_name' column not found in the data.")
+        dept_code_options = df[df['empname'] == selected_empname]['department_code'].unique()
+        selected_dept_code = st.sidebar.selectbox('Select Department Code:', dept_code_options)
+        section_options = df[(df['empname'] == selected_empname) & (df['department_code'] == selected_dept_code)]['course_name'].unique()
+        selected_course = st.sidebar.selectbox('Select section :', section_options)
 
         filtered_df = df[(df['empname'] == selected_empname) & 
-                         (df['department_code'] == selected_dept_code) & 
-                         (df['course_name'] == selected_course)]
+                        (df['department_code'] == selected_dept_code) & 
+                        (df['course_name'] == selected_course)]
 
-        display_pie_chart(filtered_df, selected_empname)
+        display_pie_chart(filtered_df)
         display_sample_data(filtered_df)
-        
         st.subheader("About Creator")
         with st.expander("Kalyan Kanchumarthi"):
-            col1, col2 = st.columns([1, 3])  # Adjust the ratio as needed
-            with col1:
-                st.image("mypic.jpg", use_column_width=True)
-            with col2:
-                st.write("""
-                Hello! I'm Kalyan Kanchumarthi, 
-                a passionate developer exploring the world of AI and programming.
+                col1, col2 = st.columns([1, 3])  # Adjust the ratio as needed
+                with col1:
+                    st.image("mypic.jpg", use_column_width=True)
+                with col2:
+                    st.write("""
+                    Hello! I'm Kalyan Kanchumarthi, \n
+                    a passionate developer exploring the world of AI and programming.
 
-                - I love building applications that make life easier.
-                - I'm good at Python and data analysis.
-                - Don't misunderstand me as a nerd; I'm socially adept too! 😄
-                - Thank you for checking out my app!
+                    - I love building applications that make life easier.
+                    - I'm good at Python and data analysis.
+                    - Don't misunderstand me as a nerd; I'm socially adept too! 😄
+                    - Thank you for checking out my app!
 
-                Do check out my [LinkedIn](https://www.linkedin.com/in/kalyan-kanchumarthi-a6320a235/) and [GitHub](https://github.com/SrinivasaKalyan).
-                """)
+                    Do check out my [LinkedIn](https://www.linkedin.com/in/kalyan-kanchumarthi-a6320a235/) and [GitHub](https://github.com/SrinivasaKalyan).
+                    """)
 
     elif chart_type == 'Employee-Positive-Sentiment':
         display_bar_chart(df)
