@@ -5,7 +5,7 @@ import plotly.express as px
 
 st.set_page_config(
     page_title="TeachTrack",
-    page_icon="emotional.png", 
+    page_icon="blink.png", 
     initial_sidebar_state="auto"
 )
 
