@@ -3,6 +3,12 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 
+st.set_page_config(
+    page_title="TeachTrack",
+    page_icon="📚🖥️🎓", 
+    initial_sidebar_state="auto"
+)
+
 global df
 df = pd.read_csv("feedbackData.csv")
 st.title('LECTURER SENTIMENT ANALYSIS')
