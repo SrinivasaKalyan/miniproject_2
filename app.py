@@ -5,7 +5,7 @@ import plotly.express as px
 
 st.set_page_config(
     page_title="TeachTrack",
-    page_icon="sentiment-analysis.png", 
+    page_icon="chart.png", 
     initial_sidebar_state="auto"
 )
 
